@@ -1,0 +1,57 @@
+# ============================================================
+#  棱镜小电视 方案二  —— sdkconfig.defaults
+#  需要 ESP-IDF v5.2 及以上（使用新版 i2c_master 驱动）
+#  部分符号随 IDF 版本略有差异，多余项只会告警不会报错
+# ============================================================
+
+CONFIG_IDF_TARGET="esp32"
+
+# ---------------- Flash / 分区 ----------------
+CONFIG_ESPTOOLPY_FLASHSIZE_4MB=y
+CONFIG_ESPTOOLPY_FLASHMODE_QIO=y
+CONFIG_ESPTOOLPY_FLASHFREQ_80M=y
+CONFIG_PARTITION_TABLE_CUSTOM=y
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"
+
+# ---------------- CPU / RTOS ----------------
+CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_240=y
+CONFIG_FREERTOS_HZ=1000
+CONFIG_ESP_MAIN_TASK_STACK_SIZE=6144
+CONFIG_FREERTOS_TIMER_TASK_STACK_DEPTH=3072
+
+# ---------------- Wi-Fi ----------------
+CONFIG_ESP_WIFI_STATIC_RX_BUFFER_NUM=8
+CONFIG_ESP_WIFI_DYNAMIC_RX_BUFFER_NUM=32
+CONFIG_ESP_WIFI_DYNAMIC_TX_BUFFER=y
+CONFIG_ESP_WIFI_TX_BUFFER_TYPE=1
+
+# ---------------- TLS 证书包（HTTPS 天气 / OTA 必需） ----------------
+CONFIG_MBEDTLS_CERTIFICATE_BUNDLE=y
+CONFIG_MBEDTLS_CERTIFICATE_BUNDLE_DEFAULT_FULL=y
+
+# ---------------- 组件管理器 ----------------
+# 注：v5.5 起 IDF_COMPONENT_MANAGER_STRICT 不再是 Kconfig 配置项，
+#     如需严格模式请设置环境变量 IDF_COMPONENT_MANAGER_STRICT=1。
+
+# ---------------- Touch（使用 legacy 轮询 API，抑制弃用告警） ----------------
+CONFIG_TOUCH_SUPPRESS_DEPRECATE_WARN=y
+
+# ---------------- LVGL ----------------
+CONFIG_LV_COLOR_DEPTH_16=y
+# SPI 屏需要交换 RGB565 两个字节（esp_lvgl_port 1.x 由 LVGL 完成字节交换）
+CONFIG_LV_COLOR_16_SWAP=y
+CONFIG_LV_MEM_CUSTOM=y
+CONFIG_LV_FONT_MONTSERRAT_14=y
+CONFIG_LV_FONT_MONTSERRAT_16=y
+CONFIG_LV_FONT_MONTSERRAT_20=y
+CONFIG_LV_FONT_MONTSERRAT_28=y
+CONFIG_LV_FONT_MONTSERRAT_48=y
+CONFIG_LV_USE_ANIMIMG=y
+CONFIG_LV_USE_SNAPSHOT=y
+
+# ---------------- 优化 ----------------
+CONFIG_COMPILER_OPTIMIZATION_PERF=y
+CONFIG_COMPILER_OPTIMIZATION_ASSERTIONS_SILENT=y
+
+# ---------------- 日志 ----------------
+CONFIG_LOG_DEFAULT_LEVEL_INFO=y

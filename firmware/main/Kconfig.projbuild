@@ -1,0 +1,205 @@
+menu "Prism TV (棱镜小电视)"
+
+    config PRISM_LCD_Y_GAP
+        int "ST7789 面板 Y 方向偏移 (gap)"
+        default 0
+        range 0 80
+        help
+            240x240 的 ST7789 面板控制器 RAM 是 240x320，可见窗口位置有两种：
+              - 0  ：可见区从第 0 行开始（本板实测）
+              - 80 ：可见区从第 80 行开始（多数 1.3 寸模块）
+            现象：图像整体下移/上移、顶部或底部出现一条残留/花屏，就是这里不对。
+
+    config PRISM_LCD_SPI_HZ
+        int "LCD SPI 时钟频率 (Hz)"
+        default 20000000
+        help
+            跨板对板连接器/杜邦线时先用 20MHz 验证；稳定后再提到 40000000。
+            若花屏则继续降到 10000000。
+
+    config PRISM_LCD_SELFTEST
+        bool "启动时画 LCD 自检彩条（调试）"
+        default n
+        help
+            上电后先用 8 条纯色竖条 + 白色边框直接刷新整屏（绕过 LVGL），
+            保持约 3 秒后进入 UI。用于判断花屏是 SPI 时序/接线还是偏移问题：
+              - 彩条干净、白框完整  -> SPI/接线正常，问题在 LVGL/偏移
+              - 彩条花、白框断裂    -> 降 SPI 频率或检查接线
+
+    choice PRISM_LCD_ORIENT
+        prompt "LCD 显示方向（补偿分光棱镜）"
+        default PRISM_LCD_ORIENT_MIRROR_Y
+        help
+            分光棱镜成的是镜像/反序像，LCD 需要反向显示棱镜里才是正的。
+            上板后若无缝判断：调试模式下长按 D13 可实时循环切换四种方向，
+            屏幕 toast 与串口会显示当前序号（0 正常 / 1 左右镜像 /
+            2 上下镜像 / 3 180°反序），选到正确的一组后可在此固定。
+
+        config PRISM_LCD_ORIENT_NORMAL
+            bool "正常 (0)"
+        config PRISM_LCD_ORIENT_MIRROR_X
+            bool "左右镜像 MX (1)"
+        config PRISM_LCD_ORIENT_MIRROR_Y
+            bool "上下镜像 MY (2)"
+        config PRISM_LCD_ORIENT_ROT180
+            bool "180° 反序 MX+MY (3)"
+    endchoice
+
+    config PRISM_BL_MIN_PERCENT
+        int "自动亮度下限 (%)"
+        default 5
+        range 0 100
+
+    config PRISM_BL_MAX_PERCENT
+        int "自动亮度上限 (%)"
+        default 100
+        range 0 100
+
+    config PRISM_WEATHER_KEY
+        string "心知天气 API Key"
+        default ""
+        help
+            到 https://www.seniverse.com 申请。留空则只显示时间。
+
+    config PRISM_WEATHER_LOCATION
+        string "天气城市 (拼音/ID)"
+        default "shanghai"
+
+    config PRISM_WEATHER_LAT
+        string "天气纬度（Open-Meteo；自动定位失败时使用）"
+        default "39.90"
+
+    config PRISM_WEATHER_LON
+        string "天气经度（Open-Meteo；自动定位失败时使用）"
+        default "116.40"
+
+    config PRISM_WEATHER_AUTO_LOCATION
+        bool "通过公网 IP 自动定位（Open-Meteo）"
+        default y
+        help
+            联网后先查 IP 归属地（ipwho.is，失败再试 ip-api.com）拿到经纬度，
+            再向 Open-Meteo 请求天气；两者都失败时使用上面的默认经纬度（北京）。
+            关闭则始终使用默认经纬度。
+
+    config PRISM_WEATHER_INTERVAL_S
+        int "天气刷新间隔 (秒)"
+        default 600
+        range 60 86400
+
+    config PRISM_TZ
+        string "时区字符串 (POSIX)"
+        default "CST-8"
+
+    config PRISM_NTP_SERVER
+        string "NTP 服务器"
+        default "ntp.aliyun.com"
+
+    config PRISM_MDNS_HOSTNAME
+        string "mDNS 主机名"
+        default "prismtv"
+        help
+            配网/联网后可通过 http://<主机名>.local 访问状态页与图片上传页。
+
+    config PRISM_TOUCH_THRESHOLD
+        int "触摸条触发阈值 (% 相对基线)"
+        default 55
+        range 5 95
+        help
+            触摸焊盘原始计数低于「基线 × 该百分比」时判定为按下。
+            不同外壳/铜箔面积差异较大，实际以串口打印的原始值为准微调。
+
+    config PRISM_SHAKE_THRESHOLD
+        int "摇一摇触发阈值 (mg, 合加速度变化)"
+        default 900
+        range 100 3000
+        help
+            合加速度相对 1g 的变化超过该值判定为摇动，用于切换页面。
+
+    config PRISM_SCREEN_OFF_LUX
+        int "熄屏环境光阈值 (lux)"
+        default 3
+        range 0 200
+        help
+            环境光低于该值且持续「熄屏延时」后自动关背光省电；触摸/摇动唤醒。
+
+    config PRISM_SCREEN_OFF_DELAY_S
+        int "熄屏延时 (秒)"
+        default 30
+        range 3 3600
+
+    choice PRISM_IMAGE_RES
+        prompt "图片页缓冲分辨率"
+        default PRISM_IMAGE_RES_HALF if !SPIRAM
+        default PRISM_IMAGE_RES_FULL if SPIRAM
+        help
+            图片页需要一块 RGB565 缓冲。240x240 约 113KB，无 PSRAM 的
+            ESP32-PICO-D4 在 WiFi/LVGL 运行后通常不够用；120x120 仅约 28KB，
+            显示时 2 倍放大，适合 D4。带 PSRAM 的 PICO-V3-02 可选全分辨率。
+
+        config PRISM_IMAGE_RES_FULL
+            bool "240x240 全分辨率 (约 113KB)"
+        config PRISM_IMAGE_RES_HALF
+            bool "120x120, 2 倍放大 (约 28KB)"
+    endchoice
+
+    menu "调试 / Debug"
+
+        config PRISM_DEBUG_LCD_ONLY
+            bool "调试模式：按键翻页、关闭光路校正与传感器手势"
+            default y
+            help
+                测试阶段用。打开后：
+                  - display.c 里棱镜光路相关的屏幕镜像/旋转校正被注释（保留默认朝向）；
+                  - UI 翻页改用按键（默认 D2=下一页 / D15=上一页），
+                    不依赖触摸条、MPU6050 手势；
+                  - 关闭倒置自动旋转、自动亮度、自动熄屏。
+                时间/天气（NTP + 天气 API）默认仍然工作，见下一个选项。
+                关闭此项即恢复方案二的完整功能。
+
+        config PRISM_DEBUG_NO_NET
+            bool "调试模式：纯点屏，不启动 WiFi/网络"
+            default n
+            depends on PRISM_DEBUG_LCD_ONLY
+            help
+                打开后不启动 WiFi 配网 / HTTP / 网络任务，开机直接进 UI，
+                适合反复复位点亮/调 SPI。此时时间与天气不会更新。
+                默认关闭 —— 保留 NTP 时间与今日天气显示。
+
+        config PRISM_DEBUG_NO_SENSORS
+            bool "调试模式：不初始化 I2C 传感器"
+            default y
+            depends on PRISM_DEBUG_LCD_ONLY
+            help
+                默认打开：完全跳过 I2C 初始化（当前没接 MPU6050 / BH1750），
+                避免总线悬空时阻塞启动，「System」页显示占位符。
+                接上传感器后，关闭此项即可（sensors.c 已用 probe + 有限超时，
+                无设备时也会安全返回，不会卡死）。
+
+        config PRISM_DEBUG_KEY_GPIO
+            int "调试按键 GPIO-下一页（按下接 GND）"
+            default 13
+            range 0 39
+            depends on PRISM_DEBUG_LCD_ONLY
+            help
+                默认 13 = D13。短按翻页到下一页，长按开关背光。
+                避开：GPIO6~11/16/17（内部 Flash）、GPIO12（Flash 电压）；
+                也尽量避开 GPIO2（很多开发板 D2 有板载 LED，会把电平拉低）。
+
+        config PRISM_DEBUG_KEY2_GPIO
+            int "调试按键 GPIO-上一页（按下接 GND，-1 关闭）"
+            default 15
+            range -1 39
+            depends on PRISM_DEBUG_LCD_ONLY
+            help
+                默认 15 = D15。短按翻页到上一页；-1 表示只接一个按键。
+                注意：GPIO15 是 strapping 脚（MTDO），上电/复位时请不要按住。
+
+        config PRISM_DEBUG_BACKLIGHT
+            int "调试模式固定背光 (%)"
+            default 80
+            range 0 100
+            depends on PRISM_DEBUG_LCD_ONLY
+
+    endmenu
+
+endmenu

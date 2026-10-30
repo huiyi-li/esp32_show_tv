@@ -1,0 +1,15 @@
+dependencies:
+  idf: ">=5.2"
+
+  # LVGL 图形库
+  lvgl/lvgl: "~8.3.11"
+
+  # Espressif LVGL 显示移植层（负责 SPI 刷屏任务、双缓冲、锁）
+  espressif/esp_lvgl_port: "^1.4.0"
+
+  # mDNS（v5.x 起从 IDF 内置组件移出，改为组件管理器发布）
+  espressif/mdns: "^1.0.3"
+
+  # 注意：ST7789 驱动已内置于 IDF 的 esp_lcd 组件，
+  # 若使用较老的 IDF（或需要社区增强版），可改用：
+  # espressif/esp_lcd_st7789: "^1.0.0"

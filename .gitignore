@@ -1,0 +1,18 @@
+# ---- ESP-IDF 构建产物 / 自动下载依赖 ----
+firmware/build/
+firmware/managed_components/
+firmware/sdkconfig.old
+firmware/.idf_size_cache/
+
+# ---- Python ----
+__pycache__/
+*.pyc
+
+# ---- CAD 备份 / 构建日志 ----
+*.FCBak
+*.log
+
+# ---- 系统 / 编辑器 ----
+.DS_Store
+Thumbs.db
+*.swp

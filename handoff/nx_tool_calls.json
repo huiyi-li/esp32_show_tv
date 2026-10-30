@@ -1,0 +1,173 @@
+{
+  "meta": {
+    "target": "Siemens NX 2412 via CAD-Agent-Hub/MCP/UG (stdio, server name: siemens-nx)",
+    "units": "millimeters",
+    "spec": "DESIGN_SPEC.md",
+    "prereq": "ping ok；create_part ok；NX 里已加载 NXMcPRemotingServer.dll",
+    "conventions": {
+      "create_block": "origin 是【角点】，不是中心",
+      "boolean_bodies": "每次布尔后重新 inspect_work_part_geometry 确认 body 索引",
+      "fillet_flow": "先 resolve_topology 拿 edge index，再 fillet_edges",
+      "executor_hooks": "_as 给调用命名；_edges_from 由执行器替换成 edge_indices"
+    }
+  },
+
+  "stages": [
+    {
+      "part": "PrismTV_主体.prt",
+      "note": "外壳 + 主板 + 元件，全部世界坐标，不移动",
+      "calls": [
+        { "tool": "create_part", "args": { "file_name": "PrismTV_主体.prt", "units": "millimeters" } },
+
+        { "tool": "create_parametric_sketch", "args": {
+            "name": "SK_BASE_PROFILE", "plane": "YZ", "origin": [0.0, 0.0, 0.0],
+            "geometry": [
+              { "type": "line", "name": "l0", "start": [-20.0, 0.0],     "end": [20.0, 0.0] },
+              { "type": "line", "name": "l1", "start": [20.0, 0.0],      "end": [20.0, 6.0] },
+              { "type": "line", "name": "l2", "start": [20.0, 6.0],      "end": [2.09, 6.0] },
+              { "type": "line", "name": "l3", "start": [2.09, 6.0],      "end": [-20.0, 18.7546] },
+              { "type": "line", "name": "l4", "start": [-20.0, 18.7546], "end": [-20.0, 0.0] }
+            ],
+            "constraints": [], "dimensions": []
+        } },
+
+        { "tool": "extrude_sketch", "args": {
+            "sketch_id": "SK_BASE_PROFILE", "distance": 33.0, "start": -16.5,
+            "direction": [1.0, 0.0, 0.0], "feature_name": "EX_BASE"
+        } },
+
+        { "tool": "create_block", "args": { "length": 29.0, "width": 31.0, "height": 38.0, "origin": [-14.5, -13.0, 2.0] } },
+        { "tool": "boolean_bodies", "args": { "target_body_index": 0, "tool_body_index": 1, "operation": "subtract", "feature_name": "CUT_CAVITY" }, "note": "若内核不认 subtract，试 cut" },
+
+        { "tool": "create_block", "args": { "length": 22.0, "width": 6.0, "height": 6.0, "origin": [-11.0, -20.5, 7.0] } },
+        { "tool": "boolean_bodies", "args": { "target_body_index": 0, "tool_body_index": 1, "operation": "subtract", "feature_name": "CUT_FRONT_SLOT" } },
+
+        { "tool": "create_block", "args": { "length": 9.5, "width": 4.0, "height": 3.4, "origin": [-4.75, 16.0, 2.7] } },
+        { "tool": "boolean_bodies", "args": { "target_body_index": 0, "tool_body_index": 1, "operation": "subtract", "feature_name": "CUT_USBC" } },
+
+        { "tool": "create_cylindrical_hole", "args": {
+            "origin": [12.5, -6.0, 4.2], "direction": [1.0, 0.0, 0.0],
+            "diameter": 3.0, "depth": 8.0, "target_body_index": 0, "feature_name": "LIGHT_HOLE_D3"
+        } },
+
+        { "tool": "resolve_topology", "args": { "kind": "edge", "body_index": 0,
+            "selector": { "direction": [0.0, 0.0, 1.0], "length": 6.0, "near_point": [16.5, 20.0, 3.0], "max_distance": 0.5 } }, "_as": "e_rb" },
+        { "tool": "resolve_topology", "args": { "kind": "edge", "body_index": 0,
+            "selector": { "direction": [0.0, 0.0, 1.0], "length": 6.0, "near_point": [-16.5, 20.0, 3.0], "max_distance": 0.5 } }, "_as": "e_lb" },
+        { "tool": "resolve_topology", "args": { "kind": "edge", "body_index": 0,
+            "selector": { "direction": [0.0, 0.0, 1.0], "length": 18.7546, "near_point": [16.5, -20.0, 9.0], "max_distance": 0.5 } }, "_as": "e_rf" },
+        { "tool": "resolve_topology", "args": { "kind": "edge", "body_index": 0,
+            "selector": { "direction": [0.0, 0.0, 1.0], "length": 18.7546, "near_point": [-16.5, -20.0, 9.0], "max_distance": 0.5 } }, "_as": "e_lf" },
+
+        { "tool": "fillet_edges", "args": { "body_index": 0, "radius": 4.0, "feature_name": "FILLET_CORNERS_R4",
+            "_edges_from": ["e_rb", "e_lb", "e_rf", "e_lf"] }, "note": "R5 会失败（后壁仅 6 高）" },
+
+        { "tool": "inspect_work_part_geometry", "args": { "max_bodies": 20 }, "_as": "geom_after_base" },
+
+        { "tool": "create_block", "args": { "length": 28.0, "width": 28.0, "height": 1.0, "origin": [-14.0, -11.0, 2.0] }, "note": "P09 主板" },
+
+        { "tool": "create_block", "args": { "length": 7.0, "width": 7.0, "height": 1.0, "origin": [-8.0, -6.0, 3.0] }, "note": "C01 ESP32" },
+        { "tool": "create_block", "args": { "length": 9.0, "width": 7.5, "height": 3.2, "origin": [-4.5, 9.5, 2.4] }, "note": "C02 USB-C" },
+        { "tool": "create_block", "args": { "length": 6.0, "width": 2.5, "height": 2.0, "origin": [-3.0, 3.0, 3.0] }, "note": "C03 12P" },
+        { "tool": "create_block", "args": { "length": 3.0, "width": 2.5, "height": 1.5, "origin": [-13.0, -10.0, 3.0] }, "note": "C04 键1" },
+        { "tool": "create_block", "args": { "length": 3.0, "width": 2.5, "height": 1.5, "origin": [10.0, -10.0, 3.0] }, "note": "C05 键2" },
+        { "tool": "create_block", "args": { "length": 4.0, "width": 4.0, "height": 0.9, "origin": [-5.0, -4.0, 3.0] }, "note": "C06 MPU6050" },
+        { "tool": "create_block", "args": { "length": 2.6, "width": 2.4, "height": 0.9, "origin": [11.5, -7.2, 3.0] }, "note": "C07 BH1750" },
+        { "tool": "create_block", "args": { "length": 6.0, "width": 5.0, "height": 1.5, "origin": [3.0, -1.0, 3.0] }, "note": "C08 Buck" },
+        { "tool": "create_block", "args": { "length": 4.0, "width": 8.0, "height": 0.12, "origin": [3.0, -10.0, 3.0] }, "note": "C09 天线" },
+        { "tool": "create_block", "args": { "length": 0.12, "width": 9.0, "height": 3.0, "origin": [-16.38, 1.0, 2.6] }, "note": "C10 铜箔" },
+        { "tool": "create_block", "args": { "length": 5.0, "width": 5.0, "height": 0.6, "origin": [-11.5, 2.9, 3.0] }, "note": "C11 后支撑" },
+        { "tool": "create_block", "args": { "length": 5.0, "width": 5.0, "height": 0.6, "origin": [6.5, 2.9, 3.0] }, "note": "C12 后支撑" },
+
+        { "tool": "rebuild_work_part", "args": {} },
+        { "tool": "save_work_part", "args": {} }
+      ]
+    },
+
+    {
+      "part": "PrismTV_光学头.prt",
+      "note": "P02–P08，全部【局部坐标】；最后在装配里整体后仰 30°",
+      "calls": [
+        { "tool": "create_part", "args": { "file_name": "PrismTV_光学头.prt", "units": "millimeters" } },
+
+        { "tool": "create_block", "args": { "length": 32.0, "width": 32.0, "height": 3.9, "origin": [-16.0, -16.0, -0.5] }, "note": "P02 托台" },
+        { "tool": "create_block", "args": { "length": 28.2, "width": 28.2, "height": 1.8, "origin": [-14.1, -14.1, -1.0] } },
+        { "tool": "boolean_bodies", "args": { "target_body_index": 0, "tool_body_index": 1, "operation": "subtract", "feature_name": "PLINTH_STEP_LOW" } },
+        { "tool": "create_block", "args": { "length": 25.6, "width": 25.6, "height": 4.2, "origin": [-12.8, -12.8, 0.8] } },
+        { "tool": "boolean_bodies", "args": { "target_body_index": 0, "tool_body_index": 1, "operation": "subtract", "feature_name": "PLINTH_STEP_UP" } },
+        { "tool": "create_block", "args": { "length": 34.0, "width": 14.5, "height": 6.0, "origin": [-17.0, 2.5, -1.0] } },
+        { "tool": "boolean_bodies", "args": { "target_body_index": 0, "tool_body_index": 1, "operation": "subtract", "feature_name": "PLINTH_BACK_OPEN" } },
+
+        { "tool": "resolve_topology", "args": { "kind": "edge", "body_index": 0,
+            "selector": { "direction": [0.0, 0.0, 1.0], "length": 3.9, "near_point": [16.0, -16.0, 1.5], "max_distance": 0.5 } }, "_as": "p_rf" },
+        { "tool": "resolve_topology", "args": { "kind": "edge", "body_index": 0,
+            "selector": { "direction": [0.0, 0.0, 1.0], "length": 3.9, "near_point": [-16.0, -16.0, 1.5], "max_distance": 0.5 } }, "_as": "p_lf" },
+        { "tool": "fillet_edges", "args": { "body_index": 0, "radius": 1.5, "feature_name": "PLINTH_FILLET_R1_5",
+            "_edges_from": ["p_rf", "p_lf"] } },
+
+        { "tool": "create_block", "args": { "length": 28.0, "width": 28.0, "height": 0.8, "origin": [-14.0, -14.0, 0.0] }, "note": "P03 屏幕板" },
+        { "tool": "create_block", "args": { "length": 24.8, "width": 24.8, "height": 1.0, "origin": [-12.4, -12.4, 0.8] }, "note": "P04 显示面板" },
+
+        { "tool": "create_block", "args": { "length": 25.4, "width": 25.4, "height": 0.5, "origin": [-12.7, -12.7, 1.8] }, "note": "P05 遮光框" },
+        { "tool": "create_block", "args": { "length": 23.4, "width": 23.4, "height": 2.5, "origin": [-11.7, -11.7, 1.3] } },
+        { "tool": "boolean_bodies", "args": { "operation": "subtract", "feature_name": "SHIELD_WINDOW" },
+          "target_from": "second_last", "tool_from": "last",
+          "note": "P05 是倒数第二个 body，内窗是最后一个" },
+
+        { "tool": "create_block", "args": { "length": 25.4, "width": 25.4, "height": 0.1, "origin": [-12.7, -12.7, 2.3] }, "note": "P06 光学胶" },
+        { "tool": "create_block", "args": { "length": 24.2, "width": 24.2, "height": 2.0, "origin": [-12.1, -12.1, 1.8] } },
+        { "tool": "boolean_bodies", "args": { "operation": "subtract", "feature_name": "GLUE_RING" },
+          "target_from": "second_last", "tool_from": "last" },
+
+        { "tool": "create_block", "args": { "length": 25.4, "width": 25.4, "height": 25.4, "origin": [-12.7, -12.7, 2.4] }, "note": "P07 分光棱镜（25.4³）" },
+
+        { "tool": "inspect_work_part_geometry", "args": { "max_bodies": 20 }, "_as": "geom_head" },
+        { "tool": "rebuild_work_part", "args": {} },
+        { "tool": "save_work_part", "args": {} }
+      ]
+    },
+
+    {
+      "part": "PrismTV_总装.prt",
+      "note": "装配：主体（不动）+ 光学头（绕 X −30°，平移 0/−5.876/10.6）",
+      "calls": [
+        { "tool": "create_part", "args": { "file_name": "PrismTV_总装.prt", "units": "millimeters" } },
+        { "tool": "add_component", "args": { "file_name": "PrismTV_主体.prt" }, "note": "参数名以 server.py 为准；可能需要 part_path / position" },
+        { "tool": "add_component", "args": { "file_name": "PrismTV_光学头.prt" } },
+        { "tool": "move_component", "args": {
+            "component": "PrismTV_光学头",
+            "rotation": { "axis": [1.0, 0.0, 0.0], "angle": -30.0 },
+            "translation": [0.0, -5.876, 10.6]
+        }, "note": "若字段不同，用 add_assembly_constraint(angle) 或在 NX 里手动移动一次（数值见下）" },
+        { "tool": "inspect_assembly", "args": {} },
+        { "tool": "save_work_part", "args": {} }
+      ],
+      "manual_fallback": {
+        "operation": "装配 → 组件 → 移动组件",
+        "rotate": { "axis": "X", "angle_deg": -30.0 },
+        "translate": [0.0, -5.876, 10.6],
+        "pivot": "光学头局部原点（屏幕板底面中心）"
+      }
+    }
+  ],
+
+  "verify": {
+    "calls": [
+      { "tool": "get_part_summary", "args": { "max_features": 200 } },
+      { "tool": "inspect_work_part_geometry", "args": { "max_bodies": 40 } }
+    ],
+    "expected": {
+      "P01_bbox": [33.0, 40.0, 18.7546],
+      "P09_bbox": [28.0, 28.0, 1.0],
+      "P07_bbox_world": [25.4, 34.7, 34.7],
+      "assembly_bbox": [33.0, 40.0, 41.68],
+      "P01_volume_mm3_approx": 6300,
+      "total_volume_mm3_approx": 25700
+    }
+  },
+
+  "export": [
+    { "tool": "export_exchange", "args": { "file_name": "PrismTV_总装.step", "format": "step", "application_protocol": "ap242", "overwrite": true } },
+    { "tool": "export_exchange", "args": { "file_name": "PrismTV_总装.x_t", "format": "parasolid", "overwrite": true } }
+  ]
+}

@@ -1,0 +1,36 @@
+idf_component_register(
+    SRCS
+        "main.c"
+        "display.c"
+        "sensors.c"
+        "input.c"
+        "ui.c"
+        "weather_icons.c"
+        "ui_icons.c"
+        "wifi_prov.c"
+        "web_server.c"
+        "net_task.c"
+    INCLUDE_DIRS "."
+    REQUIRES
+        nvs_flash
+        esp_wifi
+        esp_netif
+        esp_event
+        esp_http_client
+        esp_http_server
+        esp_https_ota
+        app_update
+        mdns
+        mbedtls
+        json
+        driver
+        esp_lcd
+        esp_timer
+        lvgl
+        esp_lvgl_port
+    # 内置资源：分帧动画 + 天气图标（由 tools/make_assets.py 生成）
+    EMBED_FILES
+        "anim_frames.bin"
+        "weather_icons.bin"
+        "ui_icons.bin"
+)

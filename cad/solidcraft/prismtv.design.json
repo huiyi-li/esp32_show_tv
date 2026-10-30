@@ -1,0 +1,1478 @@
+{
+  "format": "solidcraft/27",
+  "name": "prismtv.design",
+  "units": "mm",
+  "params": [
+    {
+      "name": "BW",
+      "expr": "33 mm",
+      "unit": "mm",
+      "comment": "外壳宽 X",
+      "model": false
+    },
+    {
+      "name": "BD",
+      "expr": "40 mm",
+      "unit": "mm",
+      "comment": "外壳深 Y",
+      "model": false
+    },
+    {
+      "name": "WALL",
+      "expr": "2 mm",
+      "unit": "mm",
+      "comment": "壁厚",
+      "model": false
+    },
+    {
+      "name": "FLOOR",
+      "expr": "2 mm",
+      "unit": "mm",
+      "comment": "底板厚",
+      "model": false
+    },
+    {
+      "name": "BASE_H",
+      "expr": "18.7546 mm",
+      "unit": "mm",
+      "comment": "外壳前部高度",
+      "model": false
+    },
+    {
+      "name": "LEDGE_Z",
+      "expr": "6 mm",
+      "unit": "mm",
+      "comment": "后平台高度",
+      "model": false
+    },
+    {
+      "name": "KNEE_Y",
+      "expr": "2.09 mm",
+      "unit": "mm",
+      "comment": "斜面/平台交点 Y",
+      "model": false
+    },
+    {
+      "name": "CORNER_R",
+      "expr": "4 mm",
+      "unit": "mm",
+      "comment": "外壳四角圆角（SolidCraft 上限 4：后壁仅 6 高）",
+      "model": false
+    },
+    {
+      "name": "SLOT_W",
+      "expr": "22 mm",
+      "unit": "mm",
+      "comment": "盲槽宽",
+      "model": false
+    },
+    {
+      "name": "SLOT_H",
+      "expr": "6 mm",
+      "unit": "mm",
+      "comment": "盲槽高",
+      "model": false
+    },
+    {
+      "name": "SLOT_D",
+      "expr": "6 mm",
+      "unit": "mm",
+      "comment": "盲槽深",
+      "model": false
+    },
+    {
+      "name": "SLOT_CZ",
+      "expr": "10 mm",
+      "unit": "mm",
+      "comment": "盲槽中心 Z",
+      "model": false
+    },
+    {
+      "name": "USBC_W",
+      "expr": "9.5 mm",
+      "unit": "mm",
+      "comment": "USB-C 开口宽",
+      "model": false
+    },
+    {
+      "name": "USBC_H",
+      "expr": "3.4 mm",
+      "unit": "mm",
+      "comment": "USB-C 开口高",
+      "model": false
+    },
+    {
+      "name": "USBC_CZ",
+      "expr": "4.4 mm",
+      "unit": "mm",
+      "comment": "USB-C 开口中心 Z",
+      "model": false
+    },
+    {
+      "name": "PRISM",
+      "expr": "25.4 mm",
+      "unit": "mm",
+      "comment": "分光棱镜边长",
+      "model": false
+    },
+    {
+      "name": "YH",
+      "expr": "14 mm",
+      "unit": "mm",
+      "comment": "光学头半深（屏幕板 28）",
+      "model": false
+    },
+    {
+      "name": "TILT",
+      "expr": "30 deg",
+      "unit": "deg",
+      "comment": "光学头后仰角 = 人眼仰角",
+      "model": false
+    },
+    {
+      "name": "PCB_T",
+      "expr": "0.8 mm",
+      "unit": "mm",
+      "comment": "屏幕板厚",
+      "model": false
+    },
+    {
+      "name": "PANEL_T",
+      "expr": "1 mm",
+      "unit": "mm",
+      "comment": "显示面板厚",
+      "model": false
+    },
+    {
+      "name": "SHIELD_T",
+      "expr": "0.5 mm",
+      "unit": "mm",
+      "comment": "遮光框厚",
+      "model": false
+    },
+    {
+      "name": "GLUE_T",
+      "expr": "0.1 mm",
+      "unit": "mm",
+      "comment": "光学胶厚",
+      "model": false
+    },
+    {
+      "name": "HL_Z",
+      "expr": "PCB_T + PANEL_T + SHIELD_T + GLUE_T",
+      "unit": "mm",
+      "comment": "棱镜底面（头局部 Z）",
+      "model": false
+    },
+    {
+      "name": "HEAD_T",
+      "expr": "HL_Z + PRISM",
+      "unit": "mm",
+      "comment": "光学头沿轴总厚",
+      "model": false
+    },
+    {
+      "name": "HY",
+      "expr": "-18 mm + YH * cos(TILT)",
+      "unit": "mm",
+      "comment": "头局部原点世界 Y（随 TILT 变）",
+      "model": false
+    },
+    {
+      "name": "HZ",
+      "expr": "3.6 mm + YH * sin(TILT)",
+      "unit": "mm",
+      "comment": "头局部原点世界 Z（随 TILT 变）",
+      "model": false
+    },
+    {
+      "name": "TOTAL_H",
+      "expr": "HZ + YH * sin(TILT) + HEAD_T * cos(TILT)",
+      "unit": "mm",
+      "comment": "整机高度",
+      "model": false
+    },
+    {
+      "name": "PL_OUT",
+      "expr": "32 mm",
+      "unit": "mm",
+      "comment": "托台外轮廓",
+      "model": false
+    },
+    {
+      "name": "PL_UP",
+      "expr": "PRISM + 0.2 mm",
+      "unit": "mm",
+      "comment": "托台上口（贴棱镜）",
+      "model": false
+    },
+    {
+      "name": "PL_LO",
+      "expr": "YH * 2 + 0.2 mm",
+      "unit": "mm",
+      "comment": "托台下口（让屏幕板）",
+      "model": false
+    },
+    {
+      "name": "PL_H",
+      "expr": "HL_Z + 1 mm",
+      "unit": "mm",
+      "comment": "托台总高",
+      "model": false
+    },
+    {
+      "name": "MAIN_W",
+      "expr": "28 mm",
+      "unit": "mm",
+      "comment": "主板宽",
+      "model": false
+    },
+    {
+      "name": "MAIN_D",
+      "expr": "28 mm",
+      "unit": "mm",
+      "comment": "主板深",
+      "model": false
+    },
+    {
+      "name": "MAIN_T",
+      "expr": "1 mm",
+      "unit": "mm",
+      "comment": "主板厚",
+      "model": false
+    },
+    {
+      "name": "MAIN_Z",
+      "expr": "2 mm",
+      "unit": "mm",
+      "comment": "主板底面 Z",
+      "model": false
+    },
+    {
+      "name": "MAIN_Y0",
+      "expr": "-11 mm",
+      "unit": "mm",
+      "comment": "主板前端 Y",
+      "model": false
+    }
+  ],
+  "features": [
+    {
+      "id": 1,
+      "name": "SK_外壳轮廓",
+      "suppressed": false,
+      "type": "sketch",
+      "plane": {
+        "type": "origin",
+        "name": "YZ"
+      },
+      "sketch": {
+        "points": [
+          {
+            "id": "origin",
+            "pos": [
+              0.0,
+              0.0
+            ],
+            "fixed": true
+          },
+          {
+            "id": "l1.start",
+            "pos": [
+              -20.0,
+              0.0
+            ],
+            "fixed": false
+          },
+          {
+            "id": "l1.end",
+            "pos": [
+              20.0,
+              0.0
+            ],
+            "fixed": false
+          },
+          {
+            "id": "l2.end",
+            "pos": [
+              20.0,
+              6.0
+            ],
+            "fixed": false
+          },
+          {
+            "id": "l3.end",
+            "pos": [
+              2.09,
+              6.0
+            ],
+            "fixed": false
+          },
+          {
+            "id": "l4.end",
+            "pos": [
+              -20.0,
+              18.7546
+            ],
+            "fixed": false
+          }
+        ],
+        "curves": [
+          {
+            "id": "l1",
+            "type": "line",
+            "a": 1,
+            "b": 2,
+            "construction": false
+          },
+          {
+            "id": "l2",
+            "type": "line",
+            "a": 2,
+            "b": 3,
+            "construction": false
+          },
+          {
+            "id": "l3",
+            "type": "line",
+            "a": 3,
+            "b": 4,
+            "construction": false
+          },
+          {
+            "id": "l4",
+            "type": "line",
+            "a": 4,
+            "b": 5,
+            "construction": false
+          },
+          {
+            "id": "l5",
+            "type": "line",
+            "a": 5,
+            "b": 1,
+            "construction": false
+          }
+        ],
+        "constraints": [],
+        "counters": {}
+      }
+    },
+    {
+      "id": 2,
+      "name": "Extrude1",
+      "suppressed": false,
+      "body_names": [
+        "P01_外壳底座"
+      ],
+      "param_names": [
+        "d1"
+      ],
+      "type": "extrude",
+      "sketch": 1,
+      "profiles": {
+        "type": "all"
+      },
+      "extent": {
+        "distance": "BW",
+        "convention": "total_distance",
+        "direction": "symmetric"
+      },
+      "operation": "new_body"
+    },
+    {
+      "id": 3,
+      "name": "Box1",
+      "suppressed": false,
+      "body_names": [
+        "P01_外壳底座"
+      ],
+      "param_names": [
+        "d2",
+        "d3",
+        "d4"
+      ],
+      "participants": [
+        "P01_外壳底座"
+      ],
+      "type": "box",
+      "corner": [
+        "(0 mm) - (BW - 2 * WALL) / 2",
+        "(2.5 mm) - (31 mm) / 2",
+        "(21 mm) - (38 mm) / 2"
+      ],
+      "length": "BW - 2 * WALL",
+      "width": "31 mm",
+      "height": "38 mm",
+      "operation": "cut"
+    },
+    {
+      "id": 4,
+      "name": "Box2",
+      "suppressed": false,
+      "body_names": [
+        "P01_外壳底座"
+      ],
+      "param_names": [
+        "d5",
+        "d6",
+        "d7"
+      ],
+      "participants": [
+        "P01_外壳底座"
+      ],
+      "type": "box",
+      "corner": [
+        "(0 mm) - (SLOT_W) / 2",
+        "(-17.5 mm) - (SLOT_D) / 2",
+        "(SLOT_CZ) - (SLOT_H) / 2"
+      ],
+      "length": "SLOT_W",
+      "width": "SLOT_D",
+      "height": "SLOT_H",
+      "operation": "cut"
+    },
+    {
+      "id": 5,
+      "name": "Fillet1",
+      "suppressed": false,
+      "param_names": [
+        "d8"
+      ],
+      "edge_refs": [
+        {
+          "dir": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "min": [
+            -16.5,
+            -20.000000000000004,
+            -1.9539925233402755e-14
+          ],
+          "max": [
+            16.499999999999996,
+            20.0,
+            18.75460000000003
+          ]
+        },
+        {
+          "dir": [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "min": [
+            -16.5,
+            -20.000000000000004,
+            -1.9539925233402755e-14
+          ],
+          "max": [
+            16.499999999999996,
+            20.0,
+            18.75460000000003
+          ]
+        },
+        {
+          "dir": [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "min": [
+            -16.5,
+            -20.000000000000004,
+            -1.9539925233402755e-14
+          ],
+          "max": [
+            16.499999999999996,
+            20.0,
+            18.75460000000003
+          ]
+        },
+        {
+          "dir": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "min": [
+            -16.5,
+            -20.000000000000004,
+            -1.9539925233402755e-14
+          ],
+          "max": [
+            16.499999999999996,
+            20.0,
+            18.75460000000003
+          ]
+        }
+      ],
+      "edge_names": [
+        "F4:+x|F4:-z",
+        "F4:-x|F4:-z",
+        "F4:+x|F4:+z",
+        "F4:+z|F4:-x"
+      ],
+      "type": "fillet",
+      "edges": [
+        [
+          11.0,
+          -17.0,
+          7.0
+        ],
+        [
+          -11.0,
+          -17.0,
+          7.0
+        ],
+        [
+          11.0,
+          -17.0,
+          13.0
+        ],
+        [
+          -11.0,
+          -17.0,
+          13.0
+        ]
+      ],
+      "radius": "2 mm",
+      "body": "P01_外壳底座"
+    },
+    {
+      "id": 6,
+      "name": "Box3",
+      "suppressed": false,
+      "body_names": [
+        "P01_外壳底座"
+      ],
+      "param_names": [
+        "d9",
+        "d10",
+        "d11"
+      ],
+      "participants": [
+        "P01_外壳底座"
+      ],
+      "type": "box",
+      "corner": [
+        "(0 mm) - (USBC_W) / 2",
+        "(18 mm) - (4 mm) / 2",
+        "(USBC_CZ) - (USBC_H) / 2"
+      ],
+      "length": "USBC_W",
+      "width": "4 mm",
+      "height": "USBC_H",
+      "operation": "cut"
+    },
+    {
+      "id": 7,
+      "name": "Cylinder1",
+      "suppressed": false,
+      "param_names": [
+        "d12",
+        "d13"
+      ],
+      "participants": [
+        "P01_外壳底座"
+      ],
+      "type": "cylinder",
+      "base": [
+        "12.5 mm",
+        "-6 mm",
+        "4.2 mm"
+      ],
+      "axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "radius": "(3 mm) / 2",
+      "height": "8 mm",
+      "operation": "cut"
+    },
+    {
+      "id": 8,
+      "name": "Fillet2",
+      "suppressed": false,
+      "param_names": [
+        "d14"
+      ],
+      "edge_refs": [
+        {
+          "dir": [
+            -5.921189464667502e-16,
+            0.0,
+            -1.0
+          ],
+          "min": [
+            -16.5,
+            -20.00000000000001,
+            -1.9539925233402755e-14
+          ],
+          "max": [
+            16.5,
+            20.0,
+            18.75460000000003
+          ]
+        },
+        {
+          "dir": [
+            5.921189464667501e-16,
+            0.0,
+            1.0
+          ],
+          "min": [
+            -16.5,
+            -20.00000000000001,
+            -1.9539925233402755e-14
+          ],
+          "max": [
+            16.5,
+            20.0,
+            18.75460000000003
+          ]
+        },
+        {
+          "dir": [
+            5.682947669585865e-16,
+            0.0,
+            1.0
+          ],
+          "min": [
+            -16.5,
+            -20.00000000000001,
+            -1.9539925233402755e-14
+          ],
+          "max": [
+            16.5,
+            20.0,
+            18.75460000000003
+          ]
+        },
+        {
+          "dir": [
+            -5.682947669585863e-16,
+            0.0,
+            -1.0
+          ],
+          "min": [
+            -16.5,
+            -20.00000000000001,
+            -1.9539925233402755e-14
+          ],
+          "max": [
+            16.5,
+            20.0,
+            18.75460000000003
+          ]
+        }
+      ],
+      "edge_names": [
+        "F2:side:l2|F2:top",
+        "F2:bottom|F2:side:l2",
+        "F2:side:l5|F2:top",
+        "F2:bottom|F2:side:l5"
+      ],
+      "type": "fillet",
+      "edges": [
+        [
+          16.5,
+          20.0,
+          3.0
+        ],
+        [
+          -16.5,
+          20.0,
+          3.0
+        ],
+        [
+          16.5,
+          -20.0,
+          3.0
+        ],
+        [
+          -16.5,
+          -20.0,
+          3.0
+        ]
+      ],
+      "radius": "CORNER_R",
+      "body": "P01_外壳底座"
+    },
+    {
+      "id": 9,
+      "name": "Box4",
+      "suppressed": false,
+      "body_names": [
+        "P02_棱镜托台"
+      ],
+      "param_names": [
+        "d15",
+        "d16",
+        "d17"
+      ],
+      "type": "box",
+      "corner": [
+        "(0 mm) - (PL_OUT) / 2",
+        "(0 mm) - (PL_OUT) / 2",
+        "(PL_H * 0.5 - 0.5 mm) - (PL_H) / 2"
+      ],
+      "length": "PL_OUT",
+      "width": "PL_OUT",
+      "height": "PL_H",
+      "operation": "new_body"
+    },
+    {
+      "id": 10,
+      "name": "Box5",
+      "suppressed": false,
+      "body_names": [
+        "P02_棱镜托台"
+      ],
+      "param_names": [
+        "d18",
+        "d19",
+        "d20"
+      ],
+      "participants": [
+        "P02_棱镜托台"
+      ],
+      "type": "box",
+      "corner": [
+        "(0 mm) - (PL_LO) / 2",
+        "(0 mm) - (PL_LO) / 2",
+        "(-0.1 mm) - (1.8 mm) / 2"
+      ],
+      "length": "PL_LO",
+      "width": "PL_LO",
+      "height": "1.8 mm",
+      "operation": "cut"
+    },
+    {
+      "id": 11,
+      "name": "Box6",
+      "suppressed": false,
+      "body_names": [
+        "P02_棱镜托台"
+      ],
+      "param_names": [
+        "d21",
+        "d22",
+        "d23"
+      ],
+      "participants": [
+        "P02_棱镜托台"
+      ],
+      "type": "box",
+      "corner": [
+        "(0 mm) - (PL_UP) / 2",
+        "(0 mm) - (PL_UP) / 2",
+        "(2.9 mm) - (4.2 mm) / 2"
+      ],
+      "length": "PL_UP",
+      "width": "PL_UP",
+      "height": "4.2 mm",
+      "operation": "cut"
+    },
+    {
+      "id": 12,
+      "name": "Box7",
+      "suppressed": false,
+      "body_names": [
+        "P02_棱镜托台"
+      ],
+      "param_names": [
+        "d24",
+        "d25",
+        "d26"
+      ],
+      "participants": [
+        "P02_棱镜托台"
+      ],
+      "type": "box",
+      "corner": [
+        "(0 mm) - (34 mm) / 2",
+        "(9.75 mm) - (14.5 mm) / 2",
+        "(1.5 mm) - (6 mm) / 2"
+      ],
+      "length": "34 mm",
+      "width": "14.5 mm",
+      "height": "6 mm",
+      "operation": "cut"
+    },
+    {
+      "id": 13,
+      "name": "Fillet3",
+      "suppressed": false,
+      "param_names": [
+        "d27"
+      ],
+      "edge_refs": [
+        {
+          "dir": [
+            0.0,
+            8.359326303060002e-15,
+            -1.0
+          ],
+          "min": [
+            -16.0,
+            -16.0,
+            -0.5
+          ],
+          "max": [
+            16.0,
+            2.499999999999993,
+            2.9000000000001545
+          ]
+        },
+        {
+          "dir": [
+            0.0,
+            -8.359326303060002e-15,
+            1.0
+          ],
+          "min": [
+            -16.0,
+            -16.0,
+            -0.5
+          ],
+          "max": [
+            16.0,
+            2.499999999999993,
+            2.9000000000001545
+          ]
+        }
+      ],
+      "edge_names": [
+        "F9:+x|F9:-y",
+        "F9:-x|F9:-y"
+      ],
+      "type": "fillet",
+      "edges": [
+        [
+          16.0,
+          -16.0,
+          1.0
+        ],
+        [
+          -16.0,
+          -16.0,
+          1.0
+        ]
+      ],
+      "radius": "1.5 mm",
+      "body": "P02_棱镜托台"
+    },
+    {
+      "id": 14,
+      "name": "Box8",
+      "suppressed": false,
+      "body_names": [
+        "P03_屏幕板"
+      ],
+      "param_names": [
+        "d28",
+        "d29",
+        "d30"
+      ],
+      "type": "box",
+      "corner": [
+        "(0 mm) - (YH * 2) / 2",
+        "(0 mm) - (YH * 2) / 2",
+        "(PCB_T * 0.5) - (PCB_T) / 2"
+      ],
+      "length": "YH * 2",
+      "width": "YH * 2",
+      "height": "PCB_T",
+      "operation": "new_body"
+    },
+    {
+      "id": 15,
+      "name": "Box9",
+      "suppressed": false,
+      "body_names": [
+        "P04_显示面板"
+      ],
+      "param_names": [
+        "d31",
+        "d32",
+        "d33"
+      ],
+      "type": "box",
+      "corner": [
+        "(0 mm) - (24.8 mm) / 2",
+        "(0 mm) - (24.8 mm) / 2",
+        "(PCB_T + PANEL_T * 0.5) - (PANEL_T) / 2"
+      ],
+      "length": "24.8 mm",
+      "width": "24.8 mm",
+      "height": "PANEL_T",
+      "operation": "new_body"
+    },
+    {
+      "id": 16,
+      "name": "Box10",
+      "suppressed": false,
+      "body_names": [
+        "P05_遮光框"
+      ],
+      "param_names": [
+        "d34",
+        "d35",
+        "d36"
+      ],
+      "type": "box",
+      "corner": [
+        "(0 mm) - (PRISM) / 2",
+        "(0 mm) - (PRISM) / 2",
+        "(PCB_T + PANEL_T + SHIELD_T * 0.5) - (SHIELD_T) / 2"
+      ],
+      "length": "PRISM",
+      "width": "PRISM",
+      "height": "SHIELD_T",
+      "operation": "new_body"
+    },
+    {
+      "id": 17,
+      "name": "Box11",
+      "suppressed": false,
+      "body_names": [
+        "P05_遮光框"
+      ],
+      "param_names": [
+        "d37",
+        "d38",
+        "d39"
+      ],
+      "participants": [
+        "P05_遮光框"
+      ],
+      "type": "box",
+      "corner": [
+        "(0 mm) - (23.4 mm) / 2",
+        "(0 mm) - (23.4 mm) / 2",
+        "(PCB_T + PANEL_T + SHIELD_T * 0.5) - (2.5 mm) / 2"
+      ],
+      "length": "23.4 mm",
+      "width": "23.4 mm",
+      "height": "2.5 mm",
+      "operation": "cut"
+    },
+    {
+      "id": 18,
+      "name": "Box12",
+      "suppressed": false,
+      "body_names": [
+        "P06_光学胶"
+      ],
+      "param_names": [
+        "d40",
+        "d41",
+        "d42"
+      ],
+      "type": "box",
+      "corner": [
+        "(0 mm) - (PRISM) / 2",
+        "(0 mm) - (PRISM) / 2",
+        "(HL_Z - GLUE_T * 0.5) - (GLUE_T) / 2"
+      ],
+      "length": "PRISM",
+      "width": "PRISM",
+      "height": "GLUE_T",
+      "operation": "new_body"
+    },
+    {
+      "id": 19,
+      "name": "Box13",
+      "suppressed": false,
+      "body_names": [
+        "P06_光学胶"
+      ],
+      "param_names": [
+        "d43",
+        "d44",
+        "d45"
+      ],
+      "participants": [
+        "P06_光学胶"
+      ],
+      "type": "box",
+      "corner": [
+        "(0 mm) - (24.2 mm) / 2",
+        "(0 mm) - (24.2 mm) / 2",
+        "(HL_Z - GLUE_T * 0.5) - (2 mm) / 2"
+      ],
+      "length": "24.2 mm",
+      "width": "24.2 mm",
+      "height": "2 mm",
+      "operation": "cut"
+    },
+    {
+      "id": 20,
+      "name": "Box14",
+      "suppressed": false,
+      "body_names": [
+        "P07_分光棱镜"
+      ],
+      "param_names": [
+        "d46",
+        "d47",
+        "d48"
+      ],
+      "type": "box",
+      "corner": [
+        "(0 mm) - (PRISM) / 2",
+        "(0 mm) - (PRISM) / 2",
+        "(HL_Z + PRISM * 0.5) - (PRISM) / 2"
+      ],
+      "length": "PRISM",
+      "width": "PRISM",
+      "height": "PRISM",
+      "operation": "new_body"
+    },
+    {
+      "id": 21,
+      "name": "Box15",
+      "suppressed": false,
+      "body_names": [
+        "P08_分光膜"
+      ],
+      "param_names": [
+        "d49",
+        "d50",
+        "d51"
+      ],
+      "type": "box",
+      "corner": [
+        "(0 mm) - (PRISM) / 2",
+        "(0 mm) - (PRISM * sqrt(2)) / 2",
+        "(0 mm) - (0.15 mm) / 2"
+      ],
+      "length": "PRISM",
+      "width": "PRISM * sqrt(2)",
+      "height": "0.15 mm",
+      "operation": "new_body"
+    },
+    {
+      "id": 22,
+      "name": "Move1",
+      "suppressed": false,
+      "param_names": [
+        "d52",
+        "d53",
+        "d54",
+        "d55"
+      ],
+      "type": "move",
+      "bodies": [
+        "P08_分光膜"
+      ],
+      "translate": [
+        "0 mm",
+        "0 mm",
+        "HL_Z + PRISM * 0.5"
+      ],
+      "rotate_axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "angle": "-45 deg"
+    },
+    {
+      "id": 23,
+      "name": "Move2",
+      "suppressed": false,
+      "param_names": [
+        "d56",
+        "d57",
+        "d58",
+        "d59"
+      ],
+      "type": "move",
+      "bodies": [
+        "P02_棱镜托台",
+        "P03_屏幕板",
+        "P04_显示面板",
+        "P05_遮光框",
+        "P06_光学胶",
+        "P07_分光棱镜",
+        "P08_分光膜"
+      ],
+      "translate": [
+        "0 mm",
+        "HY",
+        "HZ"
+      ],
+      "rotate_axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "angle": "0 - TILT"
+    },
+    {
+      "id": 24,
+      "name": "Box16",
+      "suppressed": false,
+      "body_names": [
+        "P09_主板"
+      ],
+      "param_names": [
+        "d60",
+        "d61",
+        "d62"
+      ],
+      "type": "box",
+      "corner": [
+        "(0 mm) - (MAIN_W) / 2",
+        "(MAIN_Y0 + MAIN_D * 0.5) - (MAIN_D) / 2",
+        "(MAIN_Z + MAIN_T * 0.5) - (MAIN_T) / 2"
+      ],
+      "length": "MAIN_W",
+      "width": "MAIN_D",
+      "height": "MAIN_T",
+      "operation": "new_body"
+    },
+    {
+      "id": 25,
+      "name": "Box17",
+      "suppressed": false,
+      "body_names": [
+        "C01_ESP32模块"
+      ],
+      "param_names": [
+        "d63",
+        "d64",
+        "d65"
+      ],
+      "type": "box",
+      "corner": [
+        "(-4.5 mm) - (7.0 mm) / 2",
+        "(-2.5 mm) - (7.0 mm) / 2",
+        "(3.5 mm) - (1.0 mm) / 2"
+      ],
+      "length": "7.0 mm",
+      "width": "7.0 mm",
+      "height": "1.0 mm",
+      "operation": "new_body"
+    },
+    {
+      "id": 26,
+      "name": "Box18",
+      "suppressed": false,
+      "body_names": [
+        "C02_USBC座"
+      ],
+      "param_names": [
+        "d66",
+        "d67",
+        "d68"
+      ],
+      "type": "box",
+      "corner": [
+        "(0.0 mm) - (9.0 mm) / 2",
+        "(13.25 mm) - (7.5 mm) / 2",
+        "(4.0 mm) - (3.2 mm) / 2"
+      ],
+      "length": "9.0 mm",
+      "width": "7.5 mm",
+      "height": "3.2 mm",
+      "operation": "new_body"
+    },
+    {
+      "id": 27,
+      "name": "Box19",
+      "suppressed": false,
+      "body_names": [
+        "C03_连接器12P"
+      ],
+      "param_names": [
+        "d69",
+        "d70",
+        "d71"
+      ],
+      "type": "box",
+      "corner": [
+        "(0.0 mm) - (6.0 mm) / 2",
+        "(4.25 mm) - (2.5 mm) / 2",
+        "(4.0 mm) - (2.0 mm) / 2"
+      ],
+      "length": "6.0 mm",
+      "width": "2.5 mm",
+      "height": "2.0 mm",
+      "operation": "new_body"
+    },
+    {
+      "id": 28,
+      "name": "Box20",
+      "suppressed": false,
+      "body_names": [
+        "C04_轻触键1"
+      ],
+      "param_names": [
+        "d72",
+        "d73",
+        "d74"
+      ],
+      "type": "box",
+      "corner": [
+        "(-11.5 mm) - (3.0 mm) / 2",
+        "(-8.75 mm) - (2.5 mm) / 2",
+        "(3.75 mm) - (1.5 mm) / 2"
+      ],
+      "length": "3.0 mm",
+      "width": "2.5 mm",
+      "height": "1.5 mm",
+      "operation": "new_body"
+    },
+    {
+      "id": 29,
+      "name": "Box21",
+      "suppressed": false,
+      "body_names": [
+        "C05_轻触键2"
+      ],
+      "param_names": [
+        "d75",
+        "d76",
+        "d77"
+      ],
+      "type": "box",
+      "corner": [
+        "(11.5 mm) - (3.0 mm) / 2",
+        "(-8.75 mm) - (2.5 mm) / 2",
+        "(3.75 mm) - (1.5 mm) / 2"
+      ],
+      "length": "3.0 mm",
+      "width": "2.5 mm",
+      "height": "1.5 mm",
+      "operation": "new_body"
+    },
+    {
+      "id": 30,
+      "name": "Box22",
+      "suppressed": false,
+      "body_names": [
+        "C06_MPU6050"
+      ],
+      "param_names": [
+        "d78",
+        "d79",
+        "d80"
+      ],
+      "type": "box",
+      "corner": [
+        "(-3.0 mm) - (4.0 mm) / 2",
+        "(-2.0 mm) - (4.0 mm) / 2",
+        "(3.45 mm) - (0.9 mm) / 2"
+      ],
+      "length": "4.0 mm",
+      "width": "4.0 mm",
+      "height": "0.9 mm",
+      "operation": "new_body"
+    },
+    {
+      "id": 31,
+      "name": "Box23",
+      "suppressed": false,
+      "body_names": [
+        "C07_BH1750"
+      ],
+      "param_names": [
+        "d81",
+        "d82",
+        "d83"
+      ],
+      "type": "box",
+      "corner": [
+        "(12.8 mm) - (2.6 mm) / 2",
+        "(-6.0 mm) - (2.4 mm) / 2",
+        "(3.45 mm) - (0.9 mm) / 2"
+      ],
+      "length": "2.6 mm",
+      "width": "2.4 mm",
+      "height": "0.9 mm",
+      "operation": "new_body"
+    },
+    {
+      "id": 32,
+      "name": "Box24",
+      "suppressed": false,
+      "body_names": [
+        "C08_电源模块"
+      ],
+      "param_names": [
+        "d84",
+        "d85",
+        "d86"
+      ],
+      "type": "box",
+      "corner": [
+        "(6.0 mm) - (6.0 mm) / 2",
+        "(1.5 mm) - (5.0 mm) / 2",
+        "(3.75 mm) - (1.5 mm) / 2"
+      ],
+      "length": "6.0 mm",
+      "width": "5.0 mm",
+      "height": "1.5 mm",
+      "operation": "new_body"
+    },
+    {
+      "id": 33,
+      "name": "Box25",
+      "suppressed": false,
+      "body_names": [
+        "C09_PCB天线"
+      ],
+      "param_names": [
+        "d87",
+        "d88",
+        "d89"
+      ],
+      "type": "box",
+      "corner": [
+        "(5.0 mm) - (4.0 mm) / 2",
+        "(-6.0 mm) - (8.0 mm) / 2",
+        "(3.06 mm) - (0.12 mm) / 2"
+      ],
+      "length": "4.0 mm",
+      "width": "8.0 mm",
+      "height": "0.12 mm",
+      "operation": "new_body"
+    },
+    {
+      "id": 34,
+      "name": "Box26",
+      "suppressed": false,
+      "body_names": [
+        "C10_触摸铜箔"
+      ],
+      "param_names": [
+        "d90",
+        "d91",
+        "d92"
+      ],
+      "type": "box",
+      "corner": [
+        "(-16.32 mm) - (0.12 mm) / 2",
+        "(5.5 mm) - (9.0 mm) / 2",
+        "(4.1 mm) - (3.0 mm) / 2"
+      ],
+      "length": "0.12 mm",
+      "width": "9.0 mm",
+      "height": "3.0 mm",
+      "operation": "new_body"
+    },
+    {
+      "id": 35,
+      "name": "Box27",
+      "suppressed": false,
+      "body_names": [
+        "C11_后支撑1"
+      ],
+      "param_names": [
+        "d93",
+        "d94",
+        "d95"
+      ],
+      "type": "box",
+      "corner": [
+        "(-9.0 mm) - (5.0 mm) / 2",
+        "(5.4 mm) - (5.0 mm) / 2",
+        "(3.3 mm) - (0.6 mm) / 2"
+      ],
+      "length": "5.0 mm",
+      "width": "5.0 mm",
+      "height": "0.6 mm",
+      "operation": "new_body"
+    },
+    {
+      "id": 36,
+      "name": "Box28",
+      "suppressed": false,
+      "body_names": [
+        "C12_后支撑2"
+      ],
+      "param_names": [
+        "d96",
+        "d97",
+        "d98"
+      ],
+      "type": "box",
+      "corner": [
+        "(9.0 mm) - (5.0 mm) / 2",
+        "(5.4 mm) - (5.0 mm) / 2",
+        "(3.3 mm) - (0.6 mm) / 2"
+      ],
+      "length": "5.0 mm",
+      "width": "5.0 mm",
+      "height": "0.6 mm",
+      "operation": "new_body"
+    }
+  ],
+  "next_id": 37,
+  "favorites": [
+    "BD",
+    "BW",
+    "CORNER_R",
+    "MAIN_D",
+    "MAIN_W",
+    "PRISM",
+    "SLOT_W",
+    "TILT",
+    "USBC_W",
+    "WALL",
+    "YH"
+  ],
+  "browser_groups": [
+    {
+      "id": 1,
+      "name": "01 外壳组件",
+      "component": 0,
+      "folder": "bodies",
+      "items": [
+        "P01_外壳底座"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "02 光学头组件",
+      "component": 0,
+      "folder": "bodies",
+      "items": [
+        "P02_棱镜托台",
+        "P03_屏幕板",
+        "P04_显示面板",
+        "P05_遮光框",
+        "P06_光学胶",
+        "P07_分光棱镜",
+        "P08_分光膜"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "03 主板与元件",
+      "component": 0,
+      "folder": "bodies",
+      "items": [
+        "P09_主板",
+        "C01_ESP32模块",
+        "C02_USBC座",
+        "C03_连接器12P",
+        "C04_轻触键1",
+        "C05_轻触键2",
+        "C06_MPU6050",
+        "C07_BH1750",
+        "C08_电源模块",
+        "C09_PCB天线",
+        "C10_触摸铜箔",
+        "C11_后支撑1",
+        "C12_后支撑2"
+      ]
+    }
+  ]
+}
